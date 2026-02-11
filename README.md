@@ -1,203 +1,165 @@
-# Student Management System API
+# 🎓 Student Management System API
 
-A RESTful API for managing students and their tasks, built with Express.js, TypeScript, and MongoDB Atlas.
+![Node.js](https://img.shields.io/badge/Node.js-20232A?style=for-the-badge&logo=node.js&logoColor=61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Express.js](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge)
+![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)
 
----
-
-## Live API URL
-
-```
-http://localhost:5000
-```
+A robust, production-ready RESTful API for managing students, admins, and academic tasks. Built with modern backend technologies ensuring type safety, scalability, and security.
 
 ---
 
-## ENV Variables
+## 🚀 Features
 
-Create a `.env` file in root directory:
+- **Authentication & Authorization**: Secure JWT-based auth with Role-Based Access Control (Admin/Student).
+- **Admin Dashboard**: Manage students (Add/View/Delete) and assign tasks.
+- **Student Portal**: View assigned tasks, track status (Pending/Overdue/Completed), and mark tasks as done.
+- **Task Management**: Auto-updates task status to 'Overdue' based on deadlines.
+- **Type Safety**: Fully typed codebase using TypeScript.
+- **Security**: Password hashing with Bcrypt, input validation, and secure headers.
+- **Deployment Ready**: Configured for Vercel serverless deployment.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Runtime**: Node.js
+- **Framework**: Express.js
+- **Language**: TypeScript
+- **Database**: MongoDB Atlas (Mongoose ODM)
+- **Auth**: JSON Web Tokens (JWT) & Bcrypt
+- **Dev Tools**: Nodemon, ts-node-dev
+
+---
+
+## 📂 Project Structure
+
+```bash
+src/
+├── config/         # Database connection configuration
+├── controllers/    # Route handlers (Admin, Student, Auth)
+├── middlewares/    # Authentication & Error handling middlewares
+├── models/         # Mongoose schemas & TypeScript interfaces
+├── routes/         # API route definitions
+├── seed/           # Database seeding script
+├── utils/          # Helper functions (Token generation, etc.)
+└── index.ts        # Application entry point
+```
+
+---
+
+## ⚙️ Environment Variables
+
+Create a `.env` file in the root directory:
 
 ```env
 PORT=5000
-MONGO_URL=mongodb+srv://<username>:<password>@cluster0.xxxxx.mongodb.net/studentManagement
-JWT_SECRET=s3cur3_jwt_s3cret_k3y_2026
+MONGO_URL=mongodb+srv://<username>:<password>@cluster.mongodb.net/dbname
+JWT_SECRET=your_super_secret_jwt_key
 ADMIN_EMAIL=admin@gmail.com
 ADMIN_PASSWORD=Admin@123
 ```
 
-| Variable         | Description                     | Example                      |
-| ---------------- | ------------------------------- | ---------------------------- |
-| `PORT`           | Server port                     | `5000`                       |
-| `MONGO_URL`      | MongoDB Atlas connection string | `mongodb+srv://...`          |
-| `JWT_SECRET`     | Secret key for JWT              | `s3cur3_jwt_s3cret_k3y_2026` |
-| `ADMIN_EMAIL`    | Default admin email             | `admin@gmail.com`            |
-| `ADMIN_PASSWORD` | Default admin password          | `Admin@123`                  |
-
 ---
 
-## Installation & Setup
+## 🚀 Getting Started
 
-1. **Install Dependencies**
+### 1. Installation
 
-   ```bash
-   npm install
-   ```
+Clone the repository and install dependencies:
 
-2. **Seed Admin User**
-
-   ```bash
-   npm run seed
-   ```
-
-3. **Start Development Server**
-
-   ```bash
-   npm run dev
-   ```
-
-4. **Build for Production**
-   ```bash
-   npm run build
-   npm start
-   ```
-
----
-
-## Project Structure
-
+```bash
+git clone https://github.com/Arunps21/tgh-student-management-task.git
+cd student-management-system
+npm install
 ```
-src/
-├── config/         # Database connection
-├── controllers/    # Request handlers
-├── middlewares/    # Auth middleware
-├── models/         # Mongoose models
-├── routes/         # API routes
-├── seed/           # Database seeder
-├── utils/          # Utility functions
-└── index.ts        # App entry point
+
+### 2. Database Seeding
+
+Create the default Admin user:
+
+```bash
+npm run seed
+```
+
+### 3. Running Locally
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+The server will start at `http://localhost:5000`.
+
+### 4. Build for Production
+
+Compile TypeScript to JavaScript:
+
+```bash
+npm run build
+npm start
 ```
 
 ---
 
-## Authentication
+## 📡 API Endpoints
 
-Send JWT token in request headers:
+### 🔐 Authentication
 
-```
-token: <your_jwt_token>
-```
+| Method | Endpoint              | Description   | Access |
+| :----- | :-------------------- | :------------ | :----- |
+| `POST` | `/auth/admin/login`   | Admin login   | Public |
+| `POST` | `/auth/student/login` | Student login | Public |
 
----
+### 👨‍💼 Admin Routes
 
-## API Documentation
+_Headers required: `token: <admin_token>`_
 
-### 1. Auth Routes
+| Method | Endpoint                   | Description                      |
+| :----- | :------------------------- | :------------------------------- |
+| `POST` | `/admin/addstudent`        | Register a new student           |
+| `GET`  | `/admin/viewstudents`      | Get list of all students         |
+| `GET`  | `/admin/viewstudent/:id`   | Get details of a single student  |
+| `POST` | `/admin/deletestudent/:id` | Delete a student & their tasks   |
+| `POST` | `/admin/assigntask`        | Assign a task to a student       |
+| `GET`  | `/admin/viewtasks`         | View all assigned tasks          |
+| `GET`  | `/admin/studenttasks/:id`  | View tasks of a specific student |
 
-#### POST `/auth/admin/login`
+### 👨‍🎓 Student Routes
 
-Admin login.
+_Headers required: `token: <student_token>`_
 
-**Request Body:**
-
-```json
-{
-  "email": "admin@gmail.com",
-  "password": "Admin@123"
-}
-```
-
-**Success Response:**
-
-```json
-{
-  "success": true,
-  "msg": "Login success",
-  "token": "eyJhbGciOiJIUzI1NiIs..."
-}
-```
-
-#### POST `/auth/student/login`
-
-Student login.
-
-**Request Body:**
-
-```json
-{
-  "email": "john@student.com",
-  "password": "john123456"
-}
-```
+| Method | Endpoint                        | Description            |
+| :----- | :------------------------------ | :--------------------- |
+| `GET`  | `/student/mytasks`              | View my assigned tasks |
+| `GET`  | `/student/task/:taskId`         | View task details      |
+| `POST` | `/student/completetask/:taskId` | Mark task as completed |
 
 ---
 
-### 2. Admin Routes
+## 🧪 Testing
 
-> All admin routes require `token` header with admin JWT.
-
-#### POST `/admin/addstudent`
-
-Add a new student.
-
-#### GET `/admin/viewstudents`
-
-Get all students.
-
-#### GET `/admin/viewstudent/:id`
-
-Get a single student.
-
-#### POST `/admin/deletestudent/:id`
-
-Delete a student.
-
-#### POST `/admin/assigntask`
-
-Assign a task to a student.
-
-#### GET `/admin/viewtasks`
-
-Get all tasks.
-
-#### GET `/admin/studenttasks/:studentId`
-
-Get tasks for a specific student.
+A Postman collection is included in the repo for easy testing.
+Import `postman_collection/student_management_system.postman_collection.json` into Postman.
 
 ---
 
-### 3. Student Routes
+## 🌍 Deployment
 
-> All student routes require `token` header with student JWT.
-
-#### GET `/student/mytasks`
-
-Get all tasks assigned to logged-in student.
-
-#### GET `/student/task/:taskId`
-
-Get a single task.
-
-#### POST `/student/completetask/:taskId`
-
-Mark a task as completed.
-
----
-
-## Default Admin Credentials
-
-```
-Email: admin@gmail.com
-Password: Admin@123
-```
-
-Run `npm run seed` to create the admin user if not exists.
-
----
-
-## Deployment (Vercel)
-
-This project is configured for Vercel deployment.
+This project is configured for **Vercel**.
 
 1. Install Vercel CLI: `npm i -g vercel`
 2. Deploy: `vercel`
 
-Configuration is in `vercel.json`.
+_(Make sure to add environment variables in your Vercel project settings)_
+
+---
+
+## 👤 Author
+
+**Arun**
+
+---
+
+Made with ❤️ and TypeScript.
