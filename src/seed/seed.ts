@@ -2,10 +2,11 @@ import dotenv from "dotenv";
 dotenv.config();
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
-import userModel from "../models/userModal"; // Changed import path: ./models -> ../models
+import userModel from "../models/userModal";
 
 const salt: number = 10;
 
+// Seed the database with a default admin user if none exists
 const seedAdmin = async (): Promise<void> => {
   try {
     await mongoose.connect(`${process.env.MONGO_URL}`);

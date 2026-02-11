@@ -7,7 +7,7 @@ import { AuthRequest } from "../middlewares/authMiddleware";
 
 const salt: number = 10;
 
-// Add Student
+// Add a new student to the system
 const addStudent = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const {
@@ -42,18 +42,16 @@ const addStudent = async (req: AuthRequest, res: Response): Promise<void> => {
       department,
       role: "student",
     });
-    res
-      .status(200)
-      .json({
-        success: true,
-        msg: "Student added successfully",
-        student: {
-          _id: student._id,
-          name: student.name,
-          email: student.email,
-          department: student.department,
-        },
-      });
+    res.status(200).json({
+      success: true,
+      msg: "Student added successfully",
+      student: {
+        _id: student._id,
+        name: student.name,
+        email: student.email,
+        department: student.department,
+      },
+    });
   } catch (err: unknown) {
     const error = err as Error;
     console.log(error.message);
@@ -61,7 +59,7 @@ const addStudent = async (req: AuthRequest, res: Response): Promise<void> => {
   }
 };
 
-// View All Students
+// Retrieve all students from the database
 const viewAllStudents = async (
   req: AuthRequest,
   res: Response,
@@ -82,7 +80,7 @@ const viewAllStudents = async (
   }
 };
 
-// View Single Student
+// Retrieve details of a single student by ID
 const viewStudent = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const { id }: { id: string } = req.params as { id: string };
@@ -101,7 +99,7 @@ const viewStudent = async (req: AuthRequest, res: Response): Promise<void> => {
   }
 };
 
-// Delete Student
+// Delete a student and their assigned tasks from the database
 const deleteStudent = async (
   req: AuthRequest,
   res: Response,
@@ -127,7 +125,7 @@ const deleteStudent = async (
   }
 };
 
-// Assign Task to Student
+// Assign a new task to a specific student
 const assignTask = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const {
@@ -168,7 +166,7 @@ const assignTask = async (req: AuthRequest, res: Response): Promise<void> => {
   }
 };
 
-// View All Tasks (Admin)
+// Retrieve all tasks and update status for overdue items
 const viewAllTasks = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     await taskModel.updateMany(
@@ -191,7 +189,7 @@ const viewAllTasks = async (req: AuthRequest, res: Response): Promise<void> => {
   }
 };
 
-// View Tasks by Student (Admin)
+// Retrieve all tasks assigned to a specific student
 const viewTasksByStudent = async (
   req: AuthRequest,
   res: Response,

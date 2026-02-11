@@ -12,6 +12,7 @@ interface DecodedToken {
   exp: number;
 }
 
+// Middleware to verify if the user is an admin
 const isAdmin = async (
   req: AuthRequest,
   res: Response,
@@ -41,6 +42,7 @@ const isAdmin = async (
   }
 };
 
+// Middleware to verify if the user is a student
 const isStudent = async (
   req: AuthRequest,
   res: Response,

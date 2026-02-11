@@ -8,7 +8,7 @@ interface TaskSummary {
   completed: number;
 }
 
-// View My Tasks (Student)
+// Retrieve tasks assigned to the logged-in student
 const viewMyTasks = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const userId: string = req.userId as string;
@@ -36,7 +36,7 @@ const viewMyTasks = async (req: AuthRequest, res: Response): Promise<void> => {
   }
 };
 
-// View Single Task (Student)
+// Retrieve details of a specific task
 const viewTask = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const { taskId }: { taskId: string } = req.params as { taskId: string };
@@ -60,7 +60,7 @@ const viewTask = async (req: AuthRequest, res: Response): Promise<void> => {
   }
 };
 
-// Mark Task as Completed (Student)
+// Mark a specific task as completed
 const completeTask = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const { taskId }: { taskId: string } = req.params as { taskId: string };

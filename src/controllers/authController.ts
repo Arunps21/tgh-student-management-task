@@ -5,7 +5,7 @@ import { tokenCreation } from "../utils/generateToken";
 
 const salt: number = 10;
 
-// Admin Login
+// Handle Admin login and generate JWT token
 const adminLogin = async (req: Request, res: Response): Promise<void> => {
   try {
     const { email, password }: { email: string; password: string } = req.body;
@@ -28,7 +28,7 @@ const adminLogin = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-// Student Login
+// Handle Student login and generate JWT token
 const studentLogin = async (req: Request, res: Response): Promise<void> => {
   try {
     const { email, password }: { email: string; password: string } = req.body;

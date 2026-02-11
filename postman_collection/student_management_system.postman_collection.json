@@ -1,0 +1,436 @@
+{
+  "info": {
+    "_postman_id": "254aa97a-1e86-45cf-a1a8-72ed060f477e",
+    "name": "Student Management System",
+    "description": "API collection for Student Management System built with Express.js, TypeScript & MongoDB",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "33053596"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Admin Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.success && res.token) {",
+                  "    pm.collectionVariables.set('admin_token', res.token);",
+                  "    console.log('Admin token saved!');",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@gmail.com\",\n  \"password\": \"Admin@123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/admin/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "admin",
+                "login"
+              ]
+            },
+            "description": "Login as admin. Token is auto-saved to collection variables."
+          },
+          "response": []
+        },
+        {
+          "name": "Student Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.success && res.token) {",
+                  "    pm.collectionVariables.set('student_token', res.token);",
+                  "    console.log('Student token saved!');",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"arun@gmail.com\",\n  \"password\": \"Arun@2001\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/student/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "student",
+                "login"
+              ]
+            },
+            "description": "Login as student. Token is auto-saved to collection variables."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin - Students",
+      "item": [
+        {
+          "name": "Add Student",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.success && res.student) {",
+                  "    pm.collectionVariables.set('student_id', res.student._id);",
+                  "    console.log('Student ID saved: ' + res.student._id);",
+                  "}"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Arun PS\",\n  \"email\": \"arun@gmail.com\",\n  \"password\": \"Arun@2001\",\n  \"department\": \"Computer Science\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/addstudent",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "addstudent"
+              ]
+            },
+            "description": "Add a new student. Student ID is auto-saved."
+          },
+          "response": []
+        },
+        {
+          "name": "View All Students",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/viewstudents",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "viewstudents"
+              ]
+            },
+            "description": "Get all students (password excluded)."
+          },
+          "response": []
+        },
+        {
+          "name": "View Single Student",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/viewstudent/{{student_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "viewstudent",
+                "{{student_id}}"
+              ]
+            },
+            "description": "Get a single student by ID."
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Student",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/deletestudent/{{student_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "deletestudent",
+                "{{student_id}}"
+              ]
+            },
+            "description": "Delete a student and all their tasks."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin - Tasks",
+      "item": [
+        {
+          "name": "Assign Task",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.success && res.task) {",
+                  "    pm.collectionVariables.set('task_id', res.task._id);",
+                  "    console.log('Task ID saved: ' + res.task._id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Complete Database Assignment\",\n  \"description\": \"Design an ER diagram for the library management system\",\n  \"assignedTo\": \"{{student_id}}\",\n  \"dueDate\": \"2026-03-01T23:59:59.000Z\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/assigntask",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "assigntask"
+              ]
+            },
+            "description": "Assign a task to a student. Task ID is auto-saved."
+          },
+          "response": []
+        },
+        {
+          "name": "View All Tasks",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/viewtasks",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "viewtasks"
+              ]
+            },
+            "description": "Get all tasks with populated student and admin details."
+          },
+          "response": []
+        },
+        {
+          "name": "View Tasks by Student",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/studenttasks/{{student_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "studenttasks",
+                "{{student_id}}"
+              ]
+            },
+            "description": "Get all tasks assigned to a specific student."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Student",
+      "item": [
+        {
+          "name": "View My Tasks",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{student_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/student/mytasks",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "student",
+                "mytasks"
+              ]
+            },
+            "description": "Get all tasks assigned to the logged-in student with summary counts."
+          },
+          "response": []
+        },
+        {
+          "name": "View Single Task",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{student_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/student/task/{{task_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "student",
+                "task",
+                "{{task_id}}"
+              ]
+            },
+            "description": "Get details of a single task."
+          },
+          "response": []
+        },
+        {
+          "name": "Complete Task",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{student_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/student/completetask/{{task_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "student",
+                "completetask",
+                "{{task_id}}"
+              ]
+            },
+            "description": "Mark a task as completed."
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:5000"
+    },
+    {
+      "key": "admin_token",
+      "value": ""
+    },
+    {
+      "key": "student_token",
+      "value": ""
+    },
+    {
+      "key": "student_id",
+      "value": ""
+    },
+    {
+      "key": "task_id",
+      "value": ""
+    }
+  ]
+}

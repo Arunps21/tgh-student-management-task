@@ -4,6 +4,7 @@ interface TokenPayload {
   userId: string;
 }
 
+// Generate a JWT token for the user with 1 hour expiration
 const tokenCreation = (userId: string): string => {
   return jwt.sign(
     { userId } as TokenPayload,
