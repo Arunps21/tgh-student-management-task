@@ -5,7 +5,7 @@
 ![Express.js](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge)
 ![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)
 
-A robust, production-ready RESTful API for managing students, admins, and academic tasks. Built with modern backend technologies ensuring type safety, scalability, and security.
+A simple and secure API for managing students, tasks, and admin operations, built with Node.js and TypeScript.
 
 ---
 
@@ -159,7 +159,3 @@ _(Make sure to add environment variables in your Vercel project settings)_
 ## 👤 Author
 
 **Arun**
-
----
-
-Made with ❤️ and TypeScript.
